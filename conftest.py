@@ -2,24 +2,27 @@ from core.clients.api_client import ApiClient
 import pytest
 from datetime import datetime, timedelta
 from faker import Faker
+
+
 @pytest.fixture(scope="session")
 def api_client():
     client = ApiClient()
     client.auth()
     return client
 
+
 @pytest.fixture
 def booking_dates():
     today = datetime.today()
-    checkin_date = today + timedelta(days=10)
-    checkout_date = today + timedelta(days=5)
+    checkin_date = today + timedelta(days=5)
+    checkout_date = checkin_date + timedelta(days=10)
 
-    return{
-        "checkin_date": checkin_date.strftime('%Y-%m-%d'),
-        "checkout_date": checkout_date.strftime('%Y-%m-%d')
+    return {
+        "checkin": checkin_date.strftime('%Y-%m-%d'),
+        "checkout": checkout_date.strftime('%Y-%m-%d')
     }
 
-  @pytest.fixture()
+@pytest.fixture()
 def generate_random_booking_data(booking_dates):
     faker = Faker()
     firstname = faker.first_name()
@@ -38,4 +41,3 @@ def generate_random_booking_data(booking_dates):
     }
 
     return data
-
